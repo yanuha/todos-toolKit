@@ -1,38 +1,54 @@
-import { createStore } from "redux";
+import { createStore } from 'redux';
+import { createAction, nanoid } from '@reduxjs/toolkit';
 
 // action creators
-export const addTodo = (title) => ({
-  type: "ADD_TODO",
-  title
-});
-export const removeTodo = (id) => ({
-  type: "REMOVE_TODO",
-  id
-});
-export const toggleTodo = (id) => ({
-  type: "TOGGLE_TODO",
-  id
-});
+// export const addTodo = (title) => ({
+//   type: "ADD_TODO",
+//   title
+// });
+export const addTodo = createAction('@@todos/ADD_TODO', (title) => ({
+  payload: {
+    title,
+    id: nanoid(),
+    completed: false,
+  },
+}));
+
+// export const removeTodo = (id) => ({
+//   type: "REMOVE_TODO",
+//   id
+// });
+export const removeTodo = createAction('@@todos/REMOVE_TODO');
+
+// export const toggleTodo = (id) => ({
+//   type: "TOGGLE_TODO",
+//   id
+// });
+export const toggleTodo = createAction('@@todos/TOGGLE_TODO');
+
+console.log(addTodo.toString());
+console.log(addTodo());
+console.log(addTodo('asdfasdf'));
 
 const todos = (state = [], action) => {
   switch (action.type) {
-    case "ADD_TODO": {
-      console.log(action.title);
+    case addTodo.toString(): {
+      console.log(action);
       return [
         ...state,
         {
-          id: Date.now(),
-          title: action.title,
-          completed: false
-        }
+          ...action.payload,
+        },
       ];
     }
-    case "REMOVE_TODO": {
-      return state.filter((todo) => todo.id !== action.id);
+    case removeTodo.toString(): {
+      return state.filter((todo) => todo.id !== action.payload);
     }
-    case "TOGGLE_TODO": {
+    case toggleTodo.toString(): {
       return state.map((todo) =>
-        todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+        todo.id === action.payload
+          ? { ...todo, completed: !todo.completed }
+          : todo
       );
     }
     default: {

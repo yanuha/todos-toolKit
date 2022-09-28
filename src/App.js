@@ -1,13 +1,13 @@
-import { Component } from "react";
-import { connect } from "react-redux";
-import { addTodo, removeTodo, toggleTodo } from "./store";
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { addTodo, removeTodo, toggleTodo } from './store2';
 
-import "./styles.css";
+import './styles.css';
 
 export default class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className='App'>
         <h1>Hello Redux Todo</h1>
         <NewTodo />
         <TodoList />
@@ -28,8 +28,8 @@ class _NewTodo extends Component {
 
     return (
       <form onSubmit={handleSubmit}>
-        <input type="text" name="title" placeholder="new todo" />
-        <input type="submit" value="Add Todo" />
+        <input type='text' name='title' placeholder='new todo' />
+        <input type='submit' value='Add Todo' />
       </form>
     );
   }
@@ -46,11 +46,11 @@ class _TodoList extends Component {
         {todos.map((todo) => (
           <li key={todo.id}>
             <input
-              type="checkbox"
+              type='checkbox'
               checked={todo.completed}
               onChange={() => toggleTodo(todo.id)}
-            />{" "}
-            {todo.title}{" "}
+            />{' '}
+            {todo.title}{' '}
             <button onClick={() => removeTodo(todo.id)}>delete</button>
           </li>
         ))}
@@ -63,5 +63,5 @@ const mapStateToProps = (state) => ({ todos: state });
 
 const TodoList = connect(mapStateToProps, {
   removeTodo,
-  toggleTodo
+  toggleTodo,
 })(_TodoList);
